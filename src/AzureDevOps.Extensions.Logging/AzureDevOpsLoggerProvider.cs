@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AzureDevOps.Extensions.Logging;
 
@@ -11,11 +12,11 @@ public class AzureDevOpsLoggerProvider : ILoggerProvider
     private ILogger? logger;
 
     public AzureDevOpsLoggerProvider(
-        AzureDevOpsLoggerConfiguration configuration,
+        IOptions<AzureDevOpsLoggerConfiguration> getCurrentConfiguration,
         IConsoleOutput consoleOutput,
         IAzureDevOpsLoggingCommandsFormattingMapper loggingCommandsFormattingMapper)
     {
-        this.configuration = configuration;
+        this.configuration = getCurrentConfiguration.Value;
         this.consoleOutput = consoleOutput;
         this.loggingCommandsFormattingMapper = loggingCommandsFormattingMapper;
     }

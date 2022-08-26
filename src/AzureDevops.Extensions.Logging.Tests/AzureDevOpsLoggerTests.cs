@@ -2,6 +2,7 @@
 using AzureDevOps.Extensions.Logging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace AzureDevops.Extensions.Logging.Tests;
@@ -98,7 +99,8 @@ public class AzureDevOpsLoggerTests
     {
         var provider =
             new AzureDevOpsLoggerProvider(
-                configuration ?? new AzureDevOpsLoggerConfiguration(),
+                new OptionsWrapper<AzureDevOpsLoggerConfiguration>(
+                    configuration ?? new AzureDevOpsLoggerConfiguration()),
                 fakeConsoleOutput,
                 new AzureDevOpsLoggingCommandsFormattingMapper());
         return provider.CreateLogger(nameof(AzureDevOpsLoggerTests));
