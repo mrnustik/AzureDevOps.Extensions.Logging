@@ -11,18 +11,22 @@ namespace AzureDevops.Extensions.Logging.Tests;
 public class AzureDevOpsLoggerRegistrationTests
 {
     [Fact]
-    public void AddAzureDevOpsLoggerToLoggingBuilder_WithDefaultConfiguration_WorksCorrectly()
+    public void AzureDevOpsLogger_RegisteredViaServiceCollection_OutputsProperlyFormattedMessages()
     {
-        var serviceCollection = new ServiceCollection();
-        serviceCollection.AddLogging(builder => builder.AddAzureDevOpsLogger());
-        var serviceProvider = serviceCollection.BuildServiceProvider();
+        // Arrange
         var stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
 
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddLogging(builder => builder.AddAzureDevOpsLogger());
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        // Act
         var logger = serviceProvider.GetRequiredService<ILogger<AzureDevOpsLoggerRegistrationTests>>();
         logger.LogError("Error message");
 
 
+        // Assert
         stringWriter
             .ToString()
             .Should()
