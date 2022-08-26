@@ -43,6 +43,34 @@ public class AzureDevOpsLoggerTests
             .HaveElementAt(0, "##[error]Test error message with parameter 42");
     }
 
+    [Fact]
+    public void LogOnAllLevels_WithSimpleMessage_OutputsMessageProperFormat()
+    {
+        //Arrange
+        var logger = CreateLogger();
+
+        //Act 
+        logger.LogDebug("Debug message");
+        logger.LogInformation("Information message");
+        logger.LogWarning("Warning message");
+        logger.LogError("Error message");
+        logger.LogCritical("Critical message");
+
+        //Assert
+        var outputLines = fakeConsoleOutput.GetOutputLines();
+        outputLines
+            .Should()
+            .HaveElementAt(0, "##[debug]Debug message")
+            .And
+            .HaveElementAt(1, "##[command]Information message")
+            .And
+            .HaveElementAt(2, "##[warning]Warning message")
+            .And
+            .HaveElementAt(3, "##[error]Error message")
+            .And
+            .HaveElementAt(4, "##[error]Critical message");
+    }
+
     private ILogger CreateLogger(AzureDevOpsLoggerConfiguration? configuration = null)
     {
         var provider =
