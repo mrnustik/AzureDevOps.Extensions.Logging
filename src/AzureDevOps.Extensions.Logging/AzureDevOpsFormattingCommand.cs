@@ -1,6 +1,6 @@
 ﻿namespace AzureDevOps.Extensions.Logging;
 
-public enum AzureDevOpsFormattingCommands
+public enum AzureDevOpsFormattingCommand
 {
     Debug,
     Command,

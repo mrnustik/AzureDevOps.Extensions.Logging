@@ -2,5 +2,5 @@
 
 public interface IAzureDevOpsLoggingCommandsFormattingMapper
 {
-    string MapToLoggingCommand(AzureDevOpsFormattingCommands command);
+    string MapToLoggingCommand(AzureDevOpsFormattingCommand command);
 }

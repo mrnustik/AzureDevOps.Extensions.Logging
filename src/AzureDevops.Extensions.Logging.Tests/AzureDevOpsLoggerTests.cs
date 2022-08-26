@@ -78,9 +78,9 @@ public class AzureDevOpsLoggerTests
         //Arrange
         var logger = CreateLogger(new AzureDevOpsLoggerConfiguration
         {
-            LogLevelsMapping = new Dictionary<LogLevel, AzureDevOpsFormattingCommands>()
+            LogLevelsMapping = new Dictionary<LogLevel, AzureDevOpsFormattingCommand>()
             {
-                { LogLevel.Information, AzureDevOpsFormattingCommands.Error }
+                { LogLevel.Information, AzureDevOpsFormattingCommand.Error }
             }
         });
 

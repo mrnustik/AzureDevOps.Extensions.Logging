@@ -4,13 +4,17 @@ namespace AzureDevOps.Extensions.Logging;
 
 public class AzureDevOpsLoggerConfiguration
 {
-    public IDictionary<LogLevel, AzureDevOpsFormattingCommands> LogLevelsMapping { get; set; } =
-        new Dictionary<LogLevel, AzureDevOpsFormattingCommands>
+    /// <summary>
+    /// Dictionary for mapping between LogLevel and AzureDevOpsFormattingCommand.
+    /// Unspecified LogLevel values will not produce any log messages.
+    /// </summary>
+    public IDictionary<LogLevel, AzureDevOpsFormattingCommand> LogLevelsMapping { get; set; } =
+        new Dictionary<LogLevel, AzureDevOpsFormattingCommand>
         {
-            { LogLevel.Debug, AzureDevOpsFormattingCommands.Debug },
-            { LogLevel.Information, AzureDevOpsFormattingCommands.Command },
-            { LogLevel.Warning, AzureDevOpsFormattingCommands.Warning },
-            { LogLevel.Error, AzureDevOpsFormattingCommands.Error },
-            { LogLevel.Critical, AzureDevOpsFormattingCommands.Error }
+            { LogLevel.Debug, AzureDevOpsFormattingCommand.Debug },
+            { LogLevel.Information, AzureDevOpsFormattingCommand.Command },
+            { LogLevel.Warning, AzureDevOpsFormattingCommand.Warning },
+            { LogLevel.Error, AzureDevOpsFormattingCommand.Error },
+            { LogLevel.Critical, AzureDevOpsFormattingCommand.Error }
         };
 }

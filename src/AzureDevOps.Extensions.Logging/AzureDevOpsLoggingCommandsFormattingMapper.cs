@@ -2,7 +2,7 @@
 
 public class AzureDevOpsLoggingCommandsFormattingMapper : IAzureDevOpsLoggingCommandsFormattingMapper
 {
-    public string MapToLoggingCommand(AzureDevOpsFormattingCommands command)
+    public string MapToLoggingCommand(AzureDevOpsFormattingCommand command)
     {
         var commandName =
             command
