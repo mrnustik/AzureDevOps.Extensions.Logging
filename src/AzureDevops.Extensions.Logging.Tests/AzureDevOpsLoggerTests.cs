@@ -1,4 +1,5 @@
-﻿using AzureDevOps.Extensions.Logging;
+﻿using System.Collections.Generic;
+using AzureDevOps.Extensions.Logging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -69,6 +70,28 @@ public class AzureDevOpsLoggerTests
             .HaveElementAt(3, "##[error]Error message")
             .And
             .HaveElementAt(4, "##[error]Critical message");
+    }
+
+    [Fact]
+    public void Log_WithOverridenConfiguration_WillUserOverridenLoggingCommand()
+    {
+        //Arrange
+        var logger = CreateLogger(new AzureDevOpsLoggerConfiguration
+        {
+            LogLevelsMapping = new Dictionary<LogLevel, AzureDevOpsFormattingCommands>()
+            {
+                { LogLevel.Information, AzureDevOpsFormattingCommands.Error }
+            }
+        });
+
+        //Act
+        logger.LogInformation("Information message that should look like an error");
+
+        //Assert
+        var outputLines = fakeConsoleOutput.GetOutputLines();
+        outputLines
+            .Should()
+            .HaveElementAt(0, "##[error]Information message that should look like an error");
     }
 
     private ILogger CreateLogger(AzureDevOpsLoggerConfiguration? configuration = null)
