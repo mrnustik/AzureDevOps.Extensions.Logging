@@ -6,5 +6,7 @@ public enum AzureDevOpsFormattingCommands
     Command,
     Section,
     Warning,
-    Error
+    Error,
+    Group,
+    EndGroup
 }

@@ -6,14 +6,20 @@ public class AzureDevOpsLogger : ILogger
 {
     private readonly AzureDevOpsLoggerConfiguration configuration;
     private readonly IConsoleOutput consoleOutput;
+    private readonly IAzureDevOpsLoggingCommandsFormattingMapper loggingCommandsFormattingMapper;
 
-    public AzureDevOpsLogger(AzureDevOpsLoggerConfiguration configuration, IConsoleOutput consoleOutput)
+    public AzureDevOpsLogger(
+        AzureDevOpsLoggerConfiguration configuration,
+        IConsoleOutput consoleOutput,
+        IAzureDevOpsLoggingCommandsFormattingMapper loggingCommandsFormattingMapper)
     {
         this.configuration = configuration;
         this.consoleOutput = consoleOutput;
+        this.loggingCommandsFormattingMapper = loggingCommandsFormattingMapper;
     }
 
-    public void Log<TState>(LogLevel logLevel,
+    public void Log<TState>(
+        LogLevel logLevel,
         EventId eventId,
         TState state,
         Exception? exception,
@@ -25,6 +31,12 @@ public class AzureDevOpsLogger : ILogger
         }
 
         var prefix = GetLogLevelPrefix(logLevel);
+
+        if (prefix == null)
+        {
+            return;
+        }
+
         var formattedOutput = formatter(state, exception);
         consoleOutput.WriteLine($"{prefix}{formattedOutput}");
     }
@@ -39,8 +51,15 @@ public class AzureDevOpsLogger : ILogger
         return default!;
     }
 
-    private string GetLogLevelPrefix(LogLevel logLevel)
+    private string? GetLogLevelPrefix(LogLevel logLevel)
     {
-        return "##[error]";
+        var logLevelsMapping = configuration.LogLevelsMapping;
+
+        if (!logLevelsMapping.TryGetValue(logLevel, out var formattingCommand))
+        {
+            return null;
+        }
+
+        return loggingCommandsFormattingMapper.MapToLoggingCommand(formattingCommand);
     }
 }

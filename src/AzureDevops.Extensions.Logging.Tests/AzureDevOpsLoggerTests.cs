@@ -11,7 +11,7 @@ public class AzureDevOpsLoggerTests
     private readonly FakeConsoleOutput fakeConsoleOutput = new FakeConsoleOutput();
 
     [Fact]
-    public void LogError_WithSimpleMessage_OutputsMessageProperFormat()
+    public void LogError_WithSimpleErrorMessage_OutputsMessageProperFormat()
     {
         //Arrange
         var logger = CreateLogger();
@@ -30,7 +30,10 @@ public class AzureDevOpsLoggerTests
     private ILogger CreateLogger(AzureDevOpsLoggerConfiguration? configuration = null)
     {
         var provider =
-            new AzureDevOpsLoggerProvider(configuration ?? new AzureDevOpsLoggerConfiguration(), fakeConsoleOutput);
+            new AzureDevOpsLoggerProvider(
+                configuration ?? new AzureDevOpsLoggerConfiguration(),
+                fakeConsoleOutput,
+                new AzureDevOpsLoggingCommandsFormattingMapper());
         return provider.CreateLogger(nameof(AzureDevOpsLoggerTests));
     }
 }
