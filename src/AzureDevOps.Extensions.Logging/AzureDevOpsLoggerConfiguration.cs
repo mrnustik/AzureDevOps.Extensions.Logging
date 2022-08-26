@@ -10,6 +10,7 @@ public class AzureDevOpsLoggerConfiguration
             { LogLevel.Debug, AzureDevOpsFormattingCommands.Debug },
             { LogLevel.Information, AzureDevOpsFormattingCommands.Command },
             { LogLevel.Warning, AzureDevOpsFormattingCommands.Warning },
-            { LogLevel.Error, AzureDevOpsFormattingCommands.Error }
+            { LogLevel.Error, AzureDevOpsFormattingCommands.Error },
+            { LogLevel.Critical, AzureDevOpsFormattingCommands.Error }
         };
 }
