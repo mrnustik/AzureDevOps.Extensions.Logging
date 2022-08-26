@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AzureDevOps.Extensions.Logging;
+﻿using AzureDevOps.Extensions.Logging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -35,20 +34,5 @@ public class AzureDevOpsLoggerTests
                 fakeConsoleOutput,
                 new AzureDevOpsLoggingCommandsFormattingMapper());
         return provider.CreateLogger(nameof(AzureDevOpsLoggerTests));
-    }
-}
-
-public class FakeConsoleOutput : IConsoleOutput
-{
-    private readonly List<string> lines = new();
-
-    public void WriteLine(string line)
-    {
-        lines.Add(line);
-    }
-
-    public List<string> GetOutputLines()
-    {
-        return lines;
     }
 }
