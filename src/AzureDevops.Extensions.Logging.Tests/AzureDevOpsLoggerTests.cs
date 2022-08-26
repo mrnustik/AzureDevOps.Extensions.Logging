@@ -10,7 +10,7 @@ public class AzureDevOpsLoggerTests
     private readonly FakeConsoleOutput fakeConsoleOutput = new FakeConsoleOutput();
 
     [Fact]
-    public void LogError_WithSimpleErrorMessage_OutputsMessageProperFormat()
+    public void LogError_WithSimpleMessage_OutputsMessageProperFormat()
     {
         //Arrange
         var logger = CreateLogger();
@@ -24,6 +24,23 @@ public class AzureDevOpsLoggerTests
         outputLines
             .Should()
             .HaveElementAt(0, "##[error]Test error message");
+    }
+
+    [Fact]
+    public void LogError_WithFormattedMessage_OutputsMessageProperFormat()
+    {
+        //Arrange
+        var logger = CreateLogger();
+
+        //Act
+        const int parameter = 42;
+        logger.LogError("Test error message with parameter {Parameter}", parameter);
+
+        //Assert
+        var outputLines = fakeConsoleOutput.GetOutputLines();
+        outputLines
+            .Should()
+            .HaveElementAt(0, "##[error]Test error message with parameter 42");
     }
 
     private ILogger CreateLogger(AzureDevOpsLoggerConfiguration? configuration = null)
